@@ -9,4 +9,6 @@ else
     echo "false"
 fi
 
+source ./main.sh
+
 # cp ./build/* $HOME/
