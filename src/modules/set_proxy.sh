@@ -5,10 +5,10 @@
 # autoproxy="false"
 # proxystatus=""
 # sudo cat ../.config | grep autoproxy | awk '{print $1}'
-export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
-wslip=$(hostname -I | awk '{print $1}')
+
 port=7890
 
+PROXY_HTTP="http://${WSL_HOST_IP}:${port}"
 PROXY_HTTP="http://${WSL_HOST_IP}:${port}"
 
 set_proxy() {

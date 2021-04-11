@@ -2,12 +2,14 @@
 # development enviroment
 # export WSL_HOST=$(cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2)
 
-# env_path=./
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
-# ignore=(
-#     install.sh
-#     test.sh
-# )
+export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
+export wslip=$(hostname -I | awk '{print $1}')
+# export localhost=$WSL_HOST_IP
+
+alias kube='microk8s.kubectl'
 
 modulespath=$HOME/code/myenv/modules
 

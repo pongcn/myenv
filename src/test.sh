@@ -20,11 +20,14 @@
 #     echo "false"
 # fi
 
-proxystatus="111"
-autoproxy="true"
+# proxystatus="111"
+# autoproxy="true"
 
-if [[ (${autoproxy} = "true") ]]; then
-    echo "yes"
-else
-    echo "no"
-fi
+# if [[ (${autoproxy} = "true") ]]; then
+#     echo "yes"
+# else
+#     echo "no"
+# fi
+
+echo $PWD
+echo $OLDPWD
