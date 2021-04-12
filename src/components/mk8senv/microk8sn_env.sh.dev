@@ -1,0 +1,17 @@
+#!/bin/bash
+# fix inspect no running
+
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
+sudo apt-get install net-tools # bash: netstat: command not found
+sudo apt-get install lsb-core # lsb_release: command not found
+
+# fix snap list notes display broken 
+git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
+start-systemd-namespace && enter-systemd-namespace
+#SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"
+SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"
+
+
+alias kube='microk8s.kubectl'

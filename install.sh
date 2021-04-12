@@ -1,14 +1,21 @@
 #!/bin/bash
-myenvdirname="$(basename $PWD)"
-inspect=$(sudo grep ${myenvdirname} $HOME/.profile)
+sudo chmod +x ./install.sh
+
+source ./.config
+
+inspect=$(grep ${pj_name} $HOME/.profile)
+inprofile="$HOME/.${pj_name}"
+
+cp -f "${root_path}/build/.${pj_name}" $HOME/
+
+# homemyenv=${HOME}/.${pjname}
+
+# inprotext=`$(echo "source $HOME/.${pjname}")`
 
 if [ "$inspect" = "" ]; then
-   echo "source $HOME/code/myenv/main.sh" >> $HOME/.profile
-    echo "true"
+    echo "source $inprofile" | tee -a $HOME/.profile
+    echo "newset"
 else
-    echo "false"
+    sed -i -e "s|${inspect}|source ${inprofile}|g" $HOME/.profile
 fi
 
-source ./main.sh
-
-# cp ./build/* $HOME/

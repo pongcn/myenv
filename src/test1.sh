@@ -28,6 +28,31 @@
 # else
 #     echo "no"
 # fi
+# source ../.config
+
+# echo $PWD
+# # echo $OLDPWD
+# # grep pjname $PWD/.config
+# echo $pjname
+# # grep (pjname dirpath) ../.config
+
+# search_dir="$(find ./modules/ -name '*.sh')"
+
+# echo "$search_dir"
+
+# for entry in ${search_dir}; do
+#     cat "$entry"
+# done
+override=72
 
 echo $PWD
 echo $OLDPWD
+
+echo ${dirpath}
+
+# if [ -e "${dirpath}/build" ]; then
+#     echo "e"
+# else
+#     echo "r"
+# fi
+

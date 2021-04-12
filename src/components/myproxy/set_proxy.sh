@@ -5,6 +5,10 @@
 # autoproxy="false"
 # proxystatus=""
 # sudo cat ../.config | grep autoproxy | awk '{print $1}'
+WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
+wslip=$(hostname -I | awk '{print $1}')
+# autoproxy="false"
+# proxystatus="false"
 
 port=7890
 

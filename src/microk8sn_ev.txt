@@ -1,3 +1,0 @@
-# fix inspect no running
-sudo apt-get install net-tools # bash: netstat: command not found
-sudo apt-get install lsb-core # lsb_release: command not found
