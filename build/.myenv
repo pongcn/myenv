@@ -1,9 +1,10 @@
 #!/bin/bash
 # config for myenv
 pj_name="myenv"
-root_path="$HOME/code/myenv"
-dir_name="$(basename $root_path)"
-search_components="$(find ${root_path}/src/components/ -name '*.sh')"
+export myenv_root_path="$HOME/code/myenv"
+export MYENV_ROOT_PATH="$HOME/code/myenv"
+myenv_dir_name="$(basename $MYENV_ROOT_PATH)"
+search_components="$(find ${MYENV_ROOT_PATH}/src/components/ -name '*.sh')"
 #!/bin/bash
 # let's code into ~/.profile at this file
 # let's those alias commend resisent ~/.profile
@@ -57,3 +58,6 @@ alias setproxy=set_proxy
 alias unsetproxy=unset_proxy
 alias seeproxy=see_proxy
 echo "mk8senv"
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+alias kube='microk8s.kubectl'

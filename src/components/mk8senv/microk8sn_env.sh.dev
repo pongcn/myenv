@@ -4,14 +4,28 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-sudo apt-get install net-tools # bash: netstat: command not found
-sudo apt-get install lsb-core # lsb_release: command not found
+# sudo apt-get install net-tools # bash: netstat: command not found
+# sudo apt-get install lsb-core # lsb_release: command not found
 
-# fix snap list notes display broken 
-git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
-start-systemd-namespace && enter-systemd-namespace
-#SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"
-SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"
-
+# # fix snap list notes display broken 
+# getfrom: git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git $MYENV_ROOT_PATH/init_modules/ubuntu-wsl2-systemd-script
+# # start-systemd-namespace && enter-systemd-namespace
+# #SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"
+# #SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"
+# sed -i s|SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"|SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"|g (start-systemd-namespace enter-systemd-namespace)
 
 alias kube='microk8s.kubectl'
+
+
+
+# issues below
+
+$ microk8s.status
+#> microk8s is not running. Use microk8s inspect for a deeper inspection.
+$ snap services microk8s
+#> microk8s.daemon-etcd                  enabled  inactive  -
+#> microk8s.daemon-flanneld              enabled  inactive  -
+$ kube get nodes
+# node  NotReady
+$ sudo systemctl status snap.microk8s.daemon-kubelet
+#> kubelet.go:2188] Container runtime network not ready

@@ -1,9 +1,20 @@
 # myenv
  
- development of environment for wsl&linux
+ development environment for wsl&linux
 
-- inti_modules # directroy that's include other resources be used install
-- install.sh # write into .profile
+ ## directory struture
+- build # ti's compiled to here
+- install.sh # request in .profile by it
 - main.sh # forloop moduels directory
-- modules # ti's directory
-  - set_proxy # proxy wsl host
+- src # directroy for source code
+  - inti_modules # directroy that's include other resources be used install
+  - components # directory 
+    - set_proxy # proxy wsl host
+    - mk8senv # fix bug for wsl install microk8s
+
+## execute sequences of install.sh:
+- install modules from [init_modules].
+- cp buld/* to $HOME 
+
+## development scheme
+- add ctl

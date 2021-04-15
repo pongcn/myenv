@@ -6,7 +6,7 @@ source ./.config
 inspect=$(grep ${pj_name} $HOME/.profile)
 inprofile="$HOME/.${pj_name}"
 
-cp -f "${root_path}/build/.${pj_name}" $HOME/
+cp -f "${MYENV_ROOT_PATH}/build/.${pj_name}" $HOME/
 
 # homemyenv=${HOME}/.${pjname}
 

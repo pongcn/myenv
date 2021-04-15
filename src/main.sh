@@ -12,7 +12,7 @@ echo "welcome my environment."
 # ls $HOME/code/myenv/modules
 
 for i in ${search_components}; do
-    sudo sh -c "$i"
+    sudo sh -c "${i}"
 done
 
 # . ${env_path}/wsl2-ubuntu-map-win-localhost.sh
