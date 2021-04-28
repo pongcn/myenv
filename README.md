@@ -3,11 +3,11 @@
  development environment for wsl&linux
 
  ## directory struture
-- build # ti's compiled to here
-- install.sh # request in .profile by it
-- main.sh # forloop moduels directory
-- src # directroy for source code
-  - inti_modules # directroy that's include other resources be used install
+- build # ti is compiled to here
+- install.sh
+- inti_modules # directroy that's include other resources be used install
+- src # directroy of source code
+  - main.sh # forloop components directory
   - components # directory 
     - set_proxy # proxy wsl host
     - mk8senv # fix bug for wsl install microk8s

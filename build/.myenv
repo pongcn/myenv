@@ -57,7 +57,7 @@ fi
 alias setproxy=set_proxy
 alias unsetproxy=unset_proxy
 alias seeproxy=see_proxy
-echo "mk8senv"
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
-alias kube='microk8s.kubectl'
+# echo "mk8senv"
+# export LC_ALL=C.UTF-8
+# export LANG=C.UTF-8
+# alias kube='microk8s.kubectl'
