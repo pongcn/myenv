@@ -1,26 +1,5 @@
 # wsl2 issues
 
-<!-- $ microk8s.status
-#output> microk8s is not running. Use microk8s inspect for a deeper inspection.
-$ snap services microk8s
-#output> microk8s.daemon-etcd                  enabled  inactive  -
-#output> microk8s.daemon-flanneld              enabled  inactive  -
-$ kubectl get nodes
-#output> node  NotReady
-$ sudo systemctl status snap.microk8s.daemon-kubelet
-#output> kubelet.go:2188] Container runtime network not ready
-$ kubectl taint nodes --all node-role.kubernetes.io/master-
-#output> The connection to the server localhost:8080 was refused - did you specify the right host or port?
-$ kubectl describe nodes
-#output> runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
-#solvation >> still no working
-# vim /var/snap/microk8s/current/args/kubelet  remove --network-plugin=cni
-
-
-# sudo apt-get install net-tools # bash: netstat: command not found
-# sudo apt-get install lsb-core # lsb_release: command not found
-# alias kube='microk8s.kubectl' -->
-
 ---
 
 ## ISSUES-1
@@ -37,10 +16,10 @@ $ snap list
 ```sh
 $ git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
 $ cd ubuntu-wsl2-systemd-script
-$ sudo sed -i s|SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"|SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"|g start-systemd-namespace && sudo sed -i s|SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"|SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"|g enter-systemd-namespace
-$ sudo sed -i s|self_dir="$(dirname $0)"|self_dir="$(dirname -- $0)"|g ubuntu-wsl2-systemd-script.sh
-$ sudo sed -i s|sudo cp "$self_dir/start-systemd-namespace" /usr/sbin/start-systemd-namespace|sudo cp "$self_dir/start-systemd-namespace" /usr/sbin/|g ubuntu-wsl2-systemd-script.sh && sudo sed -i s|sudo cp "$self_dir/enter-systemd-namespace" /usr/sbin/enter-systemd-namespace|sudo cp "$self_dir/enter-systemd-namespace" /usr/sbin/|g ubuntu-wsl2-systemd-script.sh
-$ systemctl
+$ sed -i 's|self_dir="$(dirname $0)"|self_dir="$(dirname -- $0)"|g' ubuntu-wsl2-systemd-script.sh
+$ sed -i 's|SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"|SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"|g' start-systemd-namespace && sudo sed -i 's|SYSTEMD_EXE="/lib/systemd/systemd --unit=basic.target"|SYSTEMD_EXE="/lib/systemd/systemd --unit=multi-user.target"|g' enter-systemd-namespace
+$ sed -i 's|sudo cp "$self_dir/start-systemd-namespace" /usr/sbin/start-systemd-namespace|sudo cp "$self_dir/start-systemd-namespace" /usr/sbin/|g' ubuntu-wsl2-systemd-script.sh && sudo sed -i 's|sudo cp "$self_dir/enter-systemd-namespace" /usr/sbin/enter-systemd-namespace|sudo cp "$self_dir/enter-systemd-namespace" /usr/sbin/|g' ubuntu-wsl2-systemd-script.sh
+$ ps -ef # check ps /lib/systemd/systemd --unit=multi-user.target
 ```
 #### case-two
 
@@ -71,7 +50,7 @@ cd /WSL2-Linux-Kernel/
 make KCONFIG_CONFIG=Microsoft/config-wsl -j8
 # This compilation should take about 10 minutes or more. Don’t forget to pass the “-j” argument at the end of the command, with the number of CPU cores that your machine has, so that the compilation takes place in parallel and speeds up the process a lot.
 sudo make modules_install -j8
-cp arch/x86/boot/bzImage /mnt/c/User/<username>/wslkernel/mswslkernel
+cp arch/x86/boot/bzImage /mnt/c/Users/<username>/wslkernel/mswslkernel
 vi /mnt/c/Users/<username>/.wslconfig
 # .wslconfig
 [wsl2]
@@ -79,7 +58,7 @@ kernel=c:\\User\\<username>\\wslkernel\\mswslkernel
 localhostForwarding=true
 swap=0
 [user]
-default = <wslusername>
+default = <username>
 # .wslconfig END
 
 ```
@@ -100,24 +79,15 @@ sudo lxc network edit lxcbr0
 ```
 
 ```sh
-sudo apt install nftables
-sudo brctl addbr lxcbr0
-brctl show
->> lxcbr0          8000.000000000000       no
+sudo apt install lxc-utils
+sudo apt install ifupdown btrfs-tools lxc-templates lxctl
 
-$ sudo vi /etc/default/lxc-net
-LXC_BRIDGE="lxcbr0"
-LXC_ADDR="10.0.4.1"
-LXC_NETMASK="255.255.255.0"
-LXC_NETWORK="10.0.4.0/24"
-LXC_DHCP_RANGE="10.0.4.2,10.0.4.254"
-LXC_DHCP_MAX="253"
-
-sudo vi /etc/lxc/default.conf
-lxc.network.type = veth
-lxc.network.link = lxcbr0
-lxc.network.flags = up
-lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+# The following additional packages will be installed:
+#   bridge-utils dns-root-data dnsmasq-base libidn11 liblxc-common liblxc1 libpam-cgfs lxcfs uidmap
+# Suggested packages:
+#   ifupdown btrfs-tools lxc-templates lxctl
+# The following NEW packages will be installed:
+#   bridge-utils dns-root-data dnsmasq-base libidn11 liblxc-common liblxc1 libpam-cgfs lxc-utils lxcfs uidmap
 
 ```
 
@@ -138,4 +108,14 @@ $ sudo visudo
 # append snap/bin to secure_path
 ```
 >> secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:snap/bin"
+
+
+## ISSUES-5
+
+```sh
+sudo lxc launch -p default -p microk8s ubuntu:20.04 microk8s
+
+Error: Failed to run: /snap/lxd/current/bin/lxd forkstart microk8s /var/snap/lxd/common/lxd/containers /var/snap/lxd/common/lxd/logs/microk8s/lxc.conf:
+Try `lxc info --show-log local:microk8s` for more info
+```
 
